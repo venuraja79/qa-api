@@ -1,0 +1,12 @@
+farm-haystack
+--find-links=https://download.pytorch.org/whl/torch_stable.html
+fastapi
+uvicorn
+gunicorn
+pandas
+psycopg2-binary
+sklearn
+tox
+coverage
+langdetect # for PDF conversions
+# optional: sentence-transformers
