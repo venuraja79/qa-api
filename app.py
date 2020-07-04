@@ -4,6 +4,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 
+
 from controller.errors.http_error import http_error_handler
 from controller.router import router as api_router
 
