@@ -6,9 +6,9 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 
-from rest_api.config import DB_HOST, DB_USER, DB_PW, DB_PORT, ES_CONN_SCHEME, APM_SERVER, APM_SERVICE_NAME
-from rest_api.controller.errors.http_error import http_error_handler
-from rest_api.controller.router import router as api_router
+from config import DB_HOST, DB_USER, DB_PW, DB_PORT, ES_CONN_SCHEME, APM_SERVER, APM_SERVICE_NAME
+from controller.errors.http_error import http_error_handler
+from controller.router import router as api_router
 
 logging.basicConfig(format="%(asctime)s %(message)s", datefmt="%m/%d/%Y %I:%M:%S %p")
 logger = logging.getLogger(__name__)
@@ -26,17 +26,9 @@ def get_application() -> FastAPI:
         CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
     )
 
-    if APM_SERVER:
-        apm_config = {"SERVICE_NAME": APM_SERVICE_NAME, "SERVER_URL": APM_SERVER, "CAPTURE_BODY": "all"}
-        elasticapm = make_apm_client(apm_config)
-        application.add_middleware(ElasticAPM, client=elasticapm)
-
     application.add_exception_handler(HTTPException, http_error_handler)
-
     application.include_router(api_router)
-
     return application
-
 
 app = get_application()
 
